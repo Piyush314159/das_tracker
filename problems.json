@@ -1,0 +1,42 @@
+{
+  "sorting-selection": [],
+  "sorting-bubble": [],
+  "sorting-insertion": [],
+  "sorting-recursive-bubble": [],
+  "sorting-recursive-insertion": [],
+  "sorting-merge": [
+    {
+      "filename": "merge_sort_medium.py",
+      "display": "Merge Sort",
+      "diff": "medium"
+    }
+  ],
+  "sorting-quick": [],
+  "binary-search": [
+    {
+      "filename": "binary_search_easy.py",
+      "display": "Binary Search",
+      "diff": "easy"
+    }
+  ],
+  "strings": [],
+  "linked-list": [],
+  "recursion": [],
+  "bit-manipulation": [],
+  "stack-queue": [],
+  "two-pointers": [],
+  "heaps": [],
+  "greedy": [],
+  "binary-tree": [],
+  "binary-search-tree": [],
+  "graphs": [],
+  "dynamic-programming": [
+    {
+      "filename": "climbing_stairs_easy.py",
+      "display": "Climbing Stairs",
+      "diff": "easy"
+    }
+  ],
+  "tries": [],
+  "strings-advanced": []
+}

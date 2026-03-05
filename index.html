@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Tracker 🔥</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #060810;
+  --surface: #0d1018;
+  --card:    #111420;
+  --border:  #1e2235;
+  --border2: #262c42;
+  --green:   #22d67a;
+  --blue:    #3b82f6;
+  --amber:   #f59e0b;
+  --red:     #ef4444;
+  --purple:  #a855f7;
+  --cyan:    #06b6d4;
+  --pink:    #ec4899;
+  --orange:  #f97316;
+  --text:    #e8eaf2;
+  --muted:   #5a6180;
+  --dim:     #2a2f45;
+}
+html { scroll-behavior: smooth; }
+body { background:var(--bg); font-family:'Syne',sans-serif; color:var(--text); min-height:100vh; overflow-x:hidden; }
+body::before {
+  content:''; position:fixed; inset:0;
+  background-image: linear-gradient(rgba(59,130,246,.03) 1px,transparent 1px), linear-gradient(90deg,rgba(59,130,246,.03) 1px,transparent 1px);
+  background-size:48px 48px; pointer-events:none; z-index:0;
+}
+.header {
+  position:sticky; top:0; z-index:200;
+  background:rgba(6,8,16,0.92); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:14px 32px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.logo { font-size:18px; font-weight:800; letter-spacing:-0.03em; }
+.logo span { color:var(--green); }
+.header-stats { display:flex; gap:24px; }
+.hstat strong { display:block; font-size:20px; font-weight:800; letter-spacing:-0.03em; }
+.hstat small { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+.gh-btn {
+  display:flex; align-items:center; gap:8px;
+  background:var(--card); border:1px solid var(--border2); color:var(--text);
+  border-radius:10px; padding:7px 14px; font-family:'DM Mono',monospace; font-size:11px;
+  text-decoration:none; transition:background .2s; white-space:nowrap;
+}
+.gh-btn:hover { background:var(--border2); }
+.gh-btn svg { width:15px; height:15px; flex-shrink:0; }
+.hero { position:relative; z-index:1; text-align:center; padding:60px 32px 40px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:var(--green); margin-bottom:14px; }
+.hero h1 { font-size:clamp(32px,6vw,60px); font-weight:800; letter-spacing:-0.04em; line-height:1.05; }
+.hero h1 em { font-style:normal; color:var(--green); }
+.hero-sub { margin-top:12px; font-family:'DM Mono',monospace; font-size:13px; color:var(--muted); line-height:1.8; }
+.hero-sub code { background:var(--border); padding:2px 7px; border-radius:5px; font-size:12px; color:var(--green); }
+.g-prog { position:relative; z-index:1; max-width:560px; margin:0 auto 52px; padding:0 32px; }
+.bar-bg { background:var(--border); border-radius:999px; height:6px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:999px; transition:width .6s; background:linear-gradient(90deg,var(--green),var(--cyan)); }
+.bar-labels { display:flex; justify-content:space-between; margin-top:8px; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+.sec-div { position:relative; z-index:1; max-width:1200px; margin:0 auto 12px; padding:0 24px; display:flex; align-items:center; gap:14px; }
+.sec-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+.sec-line { flex:1; height:1px; background:var(--border); }
+.grid { position:relative; z-index:1; max-width:1200px; margin:0 auto 16px; padding:0 24px; display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:14px; }
+.card {
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
+  overflow:hidden; transition:border-color .2s,box-shadow .2s,transform .15s;
+  animation:fadeUp .4s ease both;
+}
+.card:hover { border-color:var(--border2); transform:translateY(-2px); box-shadow:0 12px 36px rgba(0,0,0,.4); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.card-top { padding:18px 20px 14px; cursor:pointer; user-select:none; }
+.card-row { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.card-icon { width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:8px; }
+.card-title { font-size:16px; font-weight:700; letter-spacing:-0.02em; }
+.card-sub { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-top:3px; }
+.card-right { display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0; }
+.card-count { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+.card-count strong { color:var(--text); font-size:14px; font-weight:800; }
+.chevron { color:var(--muted); transition:transform .3s; display:inline-block; }
+.card.open .chevron { transform:rotate(180deg); }
+.mini-bar-bg { height:3px; background:var(--dim); border-radius:999px; margin-top:10px; overflow:hidden; }
+.mini-bar-fill { height:100%; border-radius:999px; transition:width .4s; }
+.panel { display:none; border-top:1px solid var(--border); padding:12px 20px 18px; }
+.card.open .panel { display:block; }
+.prob-row {
+  display:flex; align-items:center; gap:10px;
+  padding:7px 10px; border-radius:9px; margin-bottom:4px;
+  background:var(--surface); border:1px solid var(--border);
+  transition:border-color .15s; animation:rowIn .2s ease both;
+}
+.prob-row:hover { border-color:var(--border2); }
+@keyframes rowIn { from{opacity:0;transform:translateX(-6px)} to{opacity:1;transform:translateX(0)} }
+.prob-check {
+  width:17px; height:17px; border-radius:50%; flex-shrink:0; cursor:pointer;
+  border:2px solid var(--border2); display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:800; color:#060810; transition:background .15s,border-color .15s;
+}
+.prob-row.solved .prob-check { background:var(--green); border-color:var(--green); }
+.prob-name { flex:1; font-size:13px; font-weight:500; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color .15s; }
+.prob-row.solved .prob-name { color:var(--muted); text-decoration:line-through; text-decoration-color:var(--dim); }
+.diff-badge { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.1em; text-transform:uppercase; padding:2px 8px; border-radius:999px; border:1px solid; flex-shrink:0; }
+.diff-easy   { color:var(--green);  border-color:var(--green);  background:rgba(34,214,122,.07); }
+.diff-medium { color:var(--amber);  border-color:var(--amber);  background:rgba(245,158,11,.07); }
+.diff-hard   { color:var(--red);    border-color:var(--red);    background:rgba(239,68,68,.07); }
+.prob-link { color:var(--muted); text-decoration:none; font-size:14px; flex-shrink:0; transition:color .15s; }
+.prob-link:hover { color:var(--text); }
+.empty-msg { font-family:'DM Mono',monospace; font-size:11px; color:var(--dim); text-align:center; padding:14px 0; }
+.empty-msg code { background:var(--border); padding:1px 5px; border-radius:4px; color:var(--muted); }
+#loader {
+  position:fixed; inset:0; background:var(--bg); z-index:999;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+  transition:opacity .4s;
+}
+#loader.gone { opacity:0; pointer-events:none; }
+.spin { width:34px; height:34px; border:3px solid var(--border); border-top-color:var(--green); border-radius:50%; animation:spin .8s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.loader-txt { font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); }
+.footer { position:relative; z-index:1; text-align:center; padding:32px; font-family:'DM Mono',monospace; font-size:11px; color:var(--dim); border-top:1px solid var(--border); margin-top:40px; }
+.footer a { color:var(--muted); text-decoration:none; }
+.footer a:hover { color:var(--text); }
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="spin"></div><div class="loader-txt">Loading problems…</div></div>
+
+<div class="header">
+  <div class="logo">DSA<span>.</span>Track</div>
+  <div class="header-stats">
+    <div class="hstat"><strong id="hProbs">0</strong><small>Problems</small></div>
+    <div class="hstat"><strong id="hSolved">0</strong><small>Solved</small></div>
+    <div class="hstat"><strong id="hTopics">0</strong><small>Topics</small></div>
+  </div>
+  <a class="gh-btn" href="https://github.com/Piyush314159/dsa-tracker" target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+    Piyush314159 / dsa-tracker
+  </a>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">GitHub-Powered DSA Tracker</div>
+  <h1>Start Solving <em>🔥</em></h1>
+  <p class="hero-sub">
+    Add <code>problem_name_easy.py</code> to a folder<br>
+    Run <code>python generate.py</code> → push → it appears here ✨
+  </p>
+</div>
+
+<div class="g-prog">
+  <div class="bar-bg"><div class="bar-fill" id="gpFill" style="width:0%"></div></div>
+  <div class="bar-labels"><span id="gpText">0 of 0 problems solved</span><span id="gpPct">0%</span></div>
+</div>
+
+<div id="content"></div>
+
+<div class="footer">
+  Synced from <a href="https://github.com/Piyush314159/dsa-tracker" target="_blank">github.com/Piyush314159/dsa-tracker</a>
+  · Solved status saved in your browser
+</div>
+
+<script>
+const GITHUB_USER   = 'Piyush314159';
+const GITHUB_REPO   = 'dsa-tracker';
+const GITHUB_BRANCH = 'main';
+const RAW = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
+
+const TOPICS = [
+  {folder:'sorting-selection',           icon:'🔢',title:'Selection Sort',          sub:'O(n²) · In-place · Unstable',            accent:'#22d67a',section:'Sorting Algorithms'},
+  {folder:'sorting-bubble',              icon:'🫧',title:'Bubble Sort',              sub:'O(n²) · In-place · Stable',              accent:'#3b82f6',section:'Sorting Algorithms'},
+  {folder:'sorting-insertion',           icon:'📥',title:'Insertion Sort',           sub:'O(n²) worst · O(n) best · Stable',       accent:'#f59e0b',section:'Sorting Algorithms'},
+  {folder:'sorting-recursive-bubble',    icon:'🔁',title:'Recursive Bubble Sort',    sub:'O(n²) · Recursion · Stable',             accent:'#a855f7',section:'Sorting Algorithms'},
+  {folder:'sorting-recursive-insertion', icon:'🔄',title:'Recursive Insertion Sort', sub:'O(n²) · Recursion · Stable',             accent:'#06b6d4',section:'Sorting Algorithms'},
+  {folder:'sorting-merge',               icon:'🔀',title:'Merge Sort',               sub:'O(n log n) · Divide & Conquer · Stable', accent:'#ef4444',section:'Sorting Algorithms'},
+  {folder:'sorting-quick',               icon:'⚡',title:'Quick Sort',               sub:'O(n log n) avg · Pivot · Unstable',      accent:'#f97316',section:'Sorting Algorithms'},
+  {folder:'binary-search',               icon:'🔍',title:'Binary Search',            sub:'1D, 2D Arrays, Space Search',            accent:'#3b82f6',section:'Core DSA Topics'},
+  {folder:'strings',                     icon:'🔤',title:'Strings',                  sub:'Basic and Medium',                       accent:'#22d67a',section:'Core DSA Topics'},
+  {folder:'linked-list',                 icon:'🔗',title:'Linked List',              sub:'Single/Double LL, Medium, Hard',         accent:'#f59e0b',section:'Core DSA Topics'},
+  {folder:'recursion',                   icon:'🌀',title:'Recursion',                sub:'Pattern Wise',                           accent:'#a855f7',section:'Core DSA Topics'},
+  {folder:'bit-manipulation',            icon:'💡',title:'Bit Manipulation',         sub:'Concepts & Problems',                    accent:'#06b6d4',section:'Core DSA Topics'},
+  {folder:'stack-queue',                 icon:'📚',title:'Stack & Queue',            sub:'Pre-In-Post Fix, Monotonic Stack',       accent:'#ef4444',section:'Core DSA Topics'},
+  {folder:'two-pointers',                icon:'👆',title:'Two Pointers',             sub:'Combined Problems',                      accent:'#ec4899',section:'Core DSA Topics'},
+  {folder:'heaps',                       icon:'🏔️',title:'Heaps',                   sub:'Learning, Medium, Hard Problems',        accent:'#f97316',section:'Core DSA Topics'},
+  {folder:'greedy',                      icon:'🤑',title:'Greedy Algorithms',        sub:'Easy → Medium → Hard',                  accent:'#22d67a',section:'Core DSA Topics'},
+  {folder:'binary-tree',                 icon:'🌳',title:'Binary Tree',              sub:'Traversals, Medium and Hard',            accent:'#3b82f6',section:'Core DSA Topics'},
+  {folder:'binary-search-tree',          icon:'🌲',title:'Binary Search Tree',       sub:'Concept and Problems',                   accent:'#f59e0b',section:'Core DSA Topics'},
+  {folder:'graphs',                      icon:'🕸️',title:'Graphs',                  sub:'Concepts and Problems',                  accent:'#a855f7',section:'Core DSA Topics'},
+  {folder:'dynamic-programming',         icon:'🧠',title:'Dynamic Programming',      sub:'Patterns and Problems',                  accent:'#06b6d4',section:'Core DSA Topics'},
+  {folder:'tries',                       icon:'📖',title:'Tries',                    sub:'Concepts and Problems',                  accent:'#ef4444',section:'Core DSA Topics'},
+  {folder:'strings-advanced',            icon:'🔡',title:'Strings – Advanced',       sub:'Hard Problems and Standard Algorithms',  accent:'#ec4899',section:'Core DSA Topics'},
+];
+
+// ── localStorage for solved state ──
+const SK = 'dsa_solved_v1';
+let solved = {};
+try { solved = JSON.parse(localStorage.getItem(SK)) || {}; } catch {}
+function saveSolved() { localStorage.setItem(SK, JSON.stringify(solved)); }
+function isSolved(f, name) { return !!solved[f+'/'+name]; }
+function toggleSolvedState(f, name) { solved[f+'/'+name] = !solved[f+'/'+name]; saveSolved(); }
+
+let DATA = {};
+
+function probHTML(folder, accent) {
+  const probs = DATA[folder] || [];
+  if (!probs.length) return `<div class="empty-msg">No problems yet — add <code>problem_name_easy.py</code> to <code>${folder}/</code> then run <code>python generate.py</code></div>`;
+  return probs.map(p => {
+    const s = isSolved(folder, p.filename);
+    const url = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/${folder}/${p.filename}`;
+    return `<div class="prob-row${s?' solved':''}">
+      <div class="prob-check" onclick="doToggle('${folder}','${p.filename}','${accent}')">${s?'✓':''}</div>
+      <div class="prob-name" onclick="doToggle('${folder}','${p.filename}','${accent}')" title="${p.display}">${p.display}</div>
+      <span class="diff-badge diff-${p.diff||'medium'}">${p.diff||'medium'}</span>
+      <a class="prob-link" href="${url}" target="_blank" title="View on GitHub">⎋</a>
+    </div>`;
+  }).join('');
+}
+
+function buildCard(topic, delay) {
+  const probs = DATA[topic.folder] || [];
+  const s = probs.filter(p => isSolved(topic.folder, p.filename)).length;
+  const t = probs.length;
+  const pct = t ? Math.round(s/t*100) : 0;
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.dataset.folder = topic.folder;
+  div.style.animationDelay = delay + 'ms';
+  div.innerHTML = `
+    <div class="card-top" onclick="this.closest('.card').classList.toggle('open')">
+      <div class="card-row">
+        <div>
+          <div class="card-icon" style="background:${topic.accent}1a">${topic.icon}</div>
+          <div class="card-title">${topic.title}</div>
+          <div class="card-sub">${topic.sub}</div>
+        </div>
+        <div class="card-right">
+          <div class="card-count" id="cc-${topic.folder}"><strong>${s}</strong>/${t}</div>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="mini-bar-bg"><div class="mini-bar-fill" id="mb-${topic.folder}" style="width:${pct}%;background:${topic.accent}"></div></div>
+    </div>
+    <div class="panel" id="panel-${topic.folder}">${probHTML(topic.folder, topic.accent)}</div>`;
+  return div;
+}
+
+function doToggle(folder, filename, accent) {
+  toggleSolvedState(folder, filename);
+  document.getElementById('panel-'+folder).innerHTML = probHTML(folder, accent);
+  const probs = DATA[folder]||[];
+  const s = probs.filter(p=>isSolved(folder,p.filename)).length, t=probs.length;
+  const pct = t?Math.round(s/t*100):0;
+  const cc=document.getElementById('cc-'+folder), mb=document.getElementById('mb-'+folder);
+  if(cc) cc.innerHTML=`<strong>${s}</strong>/${t}`;
+  if(mb) mb.style.width=pct+'%';
+  updateStats();
+}
+
+function updateStats() {
+  let tp=0,ts=0,at=0;
+  TOPICS.forEach(t=>{
+    const p=DATA[t.folder]||[];
+    tp+=p.length; ts+=p.filter(pr=>isSolved(t.folder,pr.filename)).length;
+    if(p.length) at++;
+  });
+  document.getElementById('hProbs').textContent=tp;
+  document.getElementById('hSolved').textContent=ts;
+  document.getElementById('hTopics').textContent=at;
+  const pct=tp?Math.round(ts/tp*100):0;
+  document.getElementById('gpFill').style.width=pct+'%';
+  document.getElementById('gpText').textContent=`${ts} of ${tp} problems solved`;
+  document.getElementById('gpPct').textContent=pct+'%';
+}
+
+async function main() {
+  try {
+    const res = await fetch(`${RAW}/problems.json?cb=${Date.now()}`);
+    if (res.ok) DATA = await res.json();
+    else console.warn('problems.json not found — run generate.py first');
+  } catch(e) { console.warn('fetch error', e); }
+
+  const sections = {};
+  TOPICS.forEach(t => { (sections[t.section]=sections[t.section]||[]).push(t); });
+
+  const content = document.getElementById('content');
+  let delay = 0;
+  Object.entries(sections).forEach(([name, topics]) => {
+    const sec = document.createElement('div');
+    sec.className = 'sec-div';
+    sec.innerHTML = `<span class="sec-label">${name}</span><div class="sec-line"></div>`;
+    content.appendChild(sec);
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    topics.forEach(t => { grid.appendChild(buildCard(t, delay)); delay += 50; });
+    content.appendChild(grid);
+  });
+
+  updateStats();
+  const loader = document.getElementById('loader');
+  loader.classList.add('gone');
+  setTimeout(() => loader.remove(), 500);
+}
+
+main();
+</script>
+</body>
+</html>
